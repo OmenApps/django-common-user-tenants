@@ -102,3 +102,15 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+*~
+*.pyc
+*.swp
+.DS_Store
+VERSION
+_build/
+dist/
+django_common_user_tenants.egg-info
+.idea/
+.vagrant
+dts_test_project/*/media/*/*.txt
