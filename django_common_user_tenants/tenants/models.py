@@ -494,7 +494,7 @@ class UserProfileManager(BaseUserManager):
 # This cant be located in the users app otherwise it would get loaded into
 # both the public schema and all tenant schemas. We want profiles only
 # in the public schema alongside the TenantBase model
-class UserProfile(AbstractBaseUser, PermissionsMixinFacade):
+class UserProfile(PermissionsMixinFacade, AbstractBaseUser):
     """
     An authentication-only model that is in the public tenant schema but
     linked from the authorization model (UserTenantPermissions)
