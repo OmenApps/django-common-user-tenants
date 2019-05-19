@@ -5,7 +5,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.db import connection
 from django.template import Engine
 
-from django_common_user_tenants import utils
+from django_common_user_tenants.tenants import utils
 from django_common_user_tenants.staticfiles.finders import TenantFileSystemFinder
 from django_common_user_tenants.staticfiles.storage import TenantStaticFilesStorage
 from django_common_user_tenants.template.loaders.filesystem import Loader

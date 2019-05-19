@@ -3,7 +3,7 @@ from django.test.client import RequestFactory
 
 from django_common_user_tenants.middleware import TenantMainMiddleware
 from django_common_user_tenants.tests.testcases import BaseTestCase
-from django_common_user_tenants.utils import get_tenant_model, get_domain_model, get_public_schema_name
+from django_common_user_tenants.tenants.utils import get_tenant_model, get_domain_model, get_public_schema_name
 
 
 class RoutesTestCase(BaseTestCase):

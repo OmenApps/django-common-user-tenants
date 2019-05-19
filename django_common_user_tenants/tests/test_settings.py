@@ -3,7 +3,7 @@ from django.db import connection
 from django.test import TransactionTestCase
 from django.test.utils import override_settings
 
-from django_common_user_tenants.utils import get_public_schema_name
+from django_common_user_tenants.tenants.utils import get_public_schema_name
 
 
 class TestSettings(TransactionTestCase):

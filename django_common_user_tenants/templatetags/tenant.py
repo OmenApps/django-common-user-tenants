@@ -2,7 +2,7 @@ from django.conf import settings
 from django.template import Library
 from django.template.defaulttags import URLNode
 from django.template.defaulttags import url as default_url
-from django_common_user_tenants.utils import clean_tenant_url, get_public_schema_name
+from django_common_user_tenants.tenants.utils import clean_tenant_url, get_public_schema_name
 
 register = Library()
 

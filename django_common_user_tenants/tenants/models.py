@@ -575,6 +575,22 @@ class DomainMixin(models.Model):
         abstract = True
 
 
+class PersonMixin(models.Model):
+    """
+    Makes it possible to have accounts managed by the district or WaterUser in cases where there is no associated user
+    """
+
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, blank=True, on_delete=models.CASCADE, related_name="users_person")
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        abstract = True
+
+
 class OrganizationMixin(models.Model):
     name = models.CharField(_("Name"),
                             max_length=100,
@@ -600,18 +616,3 @@ class OrganizationMixin(models.Model):
     class Meta:
         abstract = True
 
-
-class PersonMixin(models.Model):
-    """
-    Makes it possible to have accounts managed by the district or WaterUser in cases where there is no associated user
-    """
-
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, blank=True, on_delete=models.CASCADE, related_name="users_person")
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        abstract = True

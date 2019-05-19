@@ -1,4 +1,4 @@
-from django_common_user_tenants.cache import make_key
+from django_common_user_tenants.tenants.cache import make_key
 from django_common_user_tenants.test.cases import FastTenantTestCase
 
 

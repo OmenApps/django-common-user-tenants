@@ -6,7 +6,7 @@ from django.test.utils import override_settings
 from dts_test_app.models import DummyModel, ModelWithFkToPublicUser
 from django_common_user_tenants.test.cases import TenantTestCase
 from django_common_user_tenants.tests.testcases import BaseTestCase
-from django_common_user_tenants.utils import tenant_context, schema_context, schema_exists, get_tenant_model, get_public_schema_name, \
+from django_common_user_tenants.tenants.utils import tenant_context, schema_context, schema_exists, get_tenant_model, get_public_schema_name, \
     get_domain_model
 
 from django_common_user_tenants.migration_executors import get_executor

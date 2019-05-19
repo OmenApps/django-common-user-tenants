@@ -4,7 +4,7 @@ from django.db import connection
 from django.core.files.base import ContentFile
 from django.test import override_settings
 
-from django_common_user_tenants import utils
+from django_common_user_tenants.tenants import utils
 from django_common_user_tenants.files.storage import TenantFileSystemStorage
 from django_common_user_tenants.files.storages import TenantFileSystemStorage as OldTenantFileSystemStorage
 from django_common_user_tenants.tests.testcases import BaseTestCase

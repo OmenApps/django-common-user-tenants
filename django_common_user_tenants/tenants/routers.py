@@ -28,7 +28,7 @@ class TenantSyncRouter(object):
         # the imports below need to be done here else django <1.5 goes crazy
         # https://code.djangoproject.com/ticket/20704
         from django.db import connections
-        from django_common_user_tenants.utils import get_public_schema_name, get_tenant_database_alias
+        from django_common_user_tenants.tenants.utils import get_public_schema_name, get_tenant_database_alias
 
         if db != get_tenant_database_alias():
             return False

@@ -3,7 +3,7 @@ from django.conf import settings
 from django.core.management import call_command
 from django.test import TransactionTestCase
 
-from django_common_user_tenants.utils import get_public_schema_name
+from django_common_user_tenants.tenants.utils import get_public_schema_name
 
 
 class BaseTestCase(TransactionTestCase):
