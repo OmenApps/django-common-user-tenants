@@ -5,12 +5,14 @@
 {% block extrastyle %}
     {{ block.super }}
     <style>
-     .module caption.tenant-app {
-        background: #008000;
-    }
-    .module caption.public-disabled {
-        background: #c6c6c6;
-    }
+    {% colour_admin_apps as colour_admin_apps %}
+    {% if colour_admin_apps %}
+        .module caption.tenant-app {
+            background: #008000;
+        }
+        .module caption.public-disabled {
+            background: #c6c6c6;
+    }{% endif %}
     </style>
 
 {% endblock %}
