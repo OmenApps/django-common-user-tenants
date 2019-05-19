@@ -1,11 +1,9 @@
 django-common-user-tenants
-==============
+==========================
 
 THIS APP IS NOT READY FOR PRODUCTION. IT IS A WORK IN PROGRESS COMBINING DJANGO-TENANTS AND DJANGO-TENANT-USERS WITH ADDITIONAL FEATURES AND UTILITIES.
 
-==============
-
-
+====
 
 This application enables `django`_ powered websites to have multiple
 tenants via `PostgreSQL schemas`_. A vital feature for every
