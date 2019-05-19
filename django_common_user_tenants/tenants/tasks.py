@@ -2,7 +2,7 @@ import time
 from django.conf import settings
 from django.contrib.auth import get_user_model
 
-from .test.cases import TenantTestCase
+from ..test.cases import TenantTestCase
 from .utils import (get_public_schema_name, get_tenant_model,
                               get_domain_model, schema_context)
 from .models import TenantBase

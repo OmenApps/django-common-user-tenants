@@ -14,9 +14,9 @@ from django.core.management import call_command
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from .test.cases import TenantTestCase
-from .postgresql_backend.base import _check_schema_name
-from .permissions.models import UserTenantPermissions, \
+from ..test.cases import TenantTestCase
+from ..postgresql_backend.base import _check_schema_name
+from ..permissions.models import UserTenantPermissions, \
     PermissionsMixinFacade
 from .clone import CloneSchema
 from .signals import post_schema_sync, schema_needs_to_be_sync
