@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.apps import AppConfig
 from django.core.exceptions import ImproperlyConfigured
-from .utils import get_public_schema_name, get_tenant_model
+from django_common_user_tenants.utils import get_public_schema_name, get_tenant_model
 
 
 recommended_config = """
@@ -12,7 +12,7 @@ their schema-aware implementations.
 """
 
 
-class DjangoTenantsConfig(AppConfig):
+class TenantsConfig(AppConfig):
     name = 'django_common_user_tenants'
     verbose_name = "Django Common User Tenants"
 
