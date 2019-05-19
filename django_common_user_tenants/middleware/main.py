@@ -3,7 +3,7 @@ from django.db import connection
 from django.http import Http404
 from django.utils.deprecation import MiddlewareMixin
 
-from django_common_user_tenants.utils import remove_www, get_public_schema_name, get_domain_model
+from django_common_user_tenants.tenants.utils import remove_www, get_public_schema_name, get_domain_model
 
 
 class TenantMainMiddleware(MiddlewareMixin):

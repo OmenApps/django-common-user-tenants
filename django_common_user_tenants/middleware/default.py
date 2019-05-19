@@ -1,5 +1,5 @@
 from django_common_user_tenants.middleware.suspicious import SuspiciousTenantMiddleware
-from django_common_user_tenants.utils import get_public_schema_name, get_tenant_model
+from django_common_user_tenants.tenants.utils import get_public_schema_name, get_tenant_model
 
 
 class DefaultTenantMiddleware(SuspiciousTenantMiddleware):

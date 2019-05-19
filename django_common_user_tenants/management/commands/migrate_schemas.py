@@ -1,5 +1,5 @@
 from django_common_user_tenants.migration_executors import get_executor
-from django_common_user_tenants.utils import get_tenant_model, get_public_schema_name, schema_exists, get_tenant_database_alias
+from django_common_user_tenants.tenants.utils import get_tenant_model, get_public_schema_name, schema_exists, get_tenant_database_alias
 from django_common_user_tenants.management.commands import SyncCommon
 
 

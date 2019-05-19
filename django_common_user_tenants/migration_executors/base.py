@@ -3,7 +3,7 @@ import sys
 from django.db import transaction
 
 from django.core.management.commands.migrate import Command as MigrateCommand
-from django_common_user_tenants.utils import get_public_schema_name, get_tenant_database_alias
+from django_common_user_tenants.tenants.utils import get_public_schema_name, get_tenant_database_alias
 
 
 def run_migrations(args, options, executor_codename, schema_name, allow_atomic=True, idx=None, count=None):
