@@ -3,7 +3,7 @@ from django.db import connection
 from django.http import Http404
 from django.utils.deprecation import MiddlewareMixin
 
-from django_common_user_tenants.utils import remove_www, get_public_schema_name, get_tenant_domain_model
+from django_common_user_tenants.utils import remove_www, get_public_schema_name, get_domain_model
 
 
 class TenantMainMiddleware(MiddlewareMixin):
@@ -31,7 +31,7 @@ class TenantMainMiddleware(MiddlewareMixin):
         connection.set_schema_to_public()
         hostname = self.hostname_from_request(request)
 
-        domain_model = get_tenant_domain_model()
+        domain_model = get_domain_model()
         try:
             tenant = self.get_tenant(domain_model, hostname)
         except domain_model.DoesNotExist:

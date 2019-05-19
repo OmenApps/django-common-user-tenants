@@ -7,7 +7,7 @@ from dts_test_app.models import DummyModel, ModelWithFkToPublicUser
 from django_common_user_tenants.test.cases import TenantTestCase
 from django_common_user_tenants.tests.testcases import BaseTestCase
 from django_common_user_tenants.utils import tenant_context, schema_context, schema_exists, get_tenant_model, get_public_schema_name, \
-    get_tenant_domain_model
+    get_domain_model
 
 from django_common_user_tenants.migration_executors import get_executor
 
@@ -31,7 +31,7 @@ class TenantDataAndSettingsTest(BaseTestCase):
 
         cls.public_tenant = get_tenant_model()(schema_name=get_public_schema_name())
         cls.public_tenant.save()
-        cls.public_domain = get_tenant_domain_model()(tenant=cls.public_tenant, domain='test.com')
+        cls.public_domain = get_domain_model()(tenant=cls.public_tenant, domain='test.com')
         cls.public_domain.save()
 
     @classmethod
@@ -47,12 +47,12 @@ class TenantDataAndSettingsTest(BaseTestCase):
         super().setUp()
 
     def tearDown(self):
-        from django_common_user_tenants.models import TenantMixin
+        from django_common_user_tenants.tenants.models import TenantBase
 
         connection.set_schema_to_public()
 
         for c in self.created:
-            if isinstance(c, TenantMixin):
+            if isinstance(c, TenantBase):
                 c.delete(force_drop=True)
             else:
                 c.delete()
@@ -66,7 +66,7 @@ class TenantDataAndSettingsTest(BaseTestCase):
         tenant = get_tenant_model()(schema_name='test')
         tenant.save()
 
-        domain = get_tenant_domain_model()(tenant=tenant, domain='something.test.com')
+        domain = get_domain_model()(tenant=tenant, domain='something.test.com')
         domain.save()
 
         self.assertTrue(schema_exists(tenant.schema_name))
@@ -110,7 +110,7 @@ class TenantDataAndSettingsTest(BaseTestCase):
         tenant.auto_create_schema = False
         tenant.save()
 
-        domain = get_tenant_domain_model()(tenant=tenant, domain='something.test.com')
+        domain = get_domain_model()(tenant=tenant, domain='something.test.com')
         domain.save()
 
         self.assertFalse(schema_exists(tenant.schema_name))
@@ -124,7 +124,7 @@ class TenantDataAndSettingsTest(BaseTestCase):
         tenant = get_tenant_model()(schema_name='test')
         tenant.save()
 
-        domain = get_tenant_domain_model()(tenant=tenant, domain='something.test.com')
+        domain = get_domain_model()(tenant=tenant, domain='something.test.com')
         domain.save()
 
         # go to tenant's path
@@ -150,7 +150,7 @@ class TenantDataAndSettingsTest(BaseTestCase):
         tenant1 = get_tenant_model()(schema_name='tenant1')
         tenant1.save()
 
-        domain1 = get_tenant_domain_model()(tenant=tenant1, domain='something.test.com')
+        domain1 = get_domain_model()(tenant=tenant1, domain='something.test.com')
         domain1.save()
 
         connection.set_schema_to_public()
@@ -158,7 +158,7 @@ class TenantDataAndSettingsTest(BaseTestCase):
         tenant2 = get_tenant_model()(schema_name='tenant2')
         tenant2.save()
 
-        domain2 = get_tenant_domain_model()(tenant=tenant2, domain='example.com')
+        domain2 = get_domain_model()(tenant=tenant2, domain='example.com')
         domain2.save()
 
         # go to tenant1's path
@@ -192,7 +192,7 @@ class TenantDataAndSettingsTest(BaseTestCase):
         tenant1 = get_tenant_model()(schema_name='tenant1')
         tenant1.save()
 
-        domain1 = get_tenant_domain_model()(tenant=tenant1, domain='something.test.com')
+        domain1 = get_domain_model()(tenant=tenant1, domain='something.test.com')
         domain1.save()
 
         connection.set_schema_to_public()
@@ -200,7 +200,7 @@ class TenantDataAndSettingsTest(BaseTestCase):
         tenant2 = get_tenant_model()(schema_name='tenant2')
         tenant2.save()
 
-        domain2 = get_tenant_domain_model()(tenant=tenant2, domain='example.com')
+        domain2 = get_domain_model()(tenant=tenant2, domain='example.com')
         domain2.save()
 
         # set path is not executed when setting tenant so 0 queries expected
@@ -237,7 +237,7 @@ class TenantDataAndSettingsTest(BaseTestCase):
         tenant = get_tenant_model()(schema_name='test')
         tenant.save()
 
-        domain = get_tenant_domain_model()(tenant=tenant, domain='something.test.com')
+        domain = get_domain_model()(tenant=tenant, domain='something.test.com')
         domain.save()
 
         connection.tenant = None
@@ -254,7 +254,7 @@ class TenantDataAndSettingsTest(BaseTestCase):
         tenant = get_tenant_model()(schema_name='test')
         tenant.save()
 
-        domain = get_tenant_domain_model()(tenant=tenant, domain='something.test.com')
+        domain = get_domain_model()(tenant=tenant, domain='something.test.com')
         domain.save()
 
         connection.tenant = None
@@ -330,7 +330,7 @@ class TenantSyncTest(BaseSyncTest):
         tenant = get_tenant_model()(schema_name='test')
         tenant.save()
 
-        domain = get_tenant_domain_model()(tenant=tenant, domain='arbitrary.test.com')
+        domain = get_domain_model()(tenant=tenant, domain='arbitrary.test.com')
         domain.save()
 
         tenant_tables = self.get_tables_list_in_schema(tenant.schema_name)
@@ -362,7 +362,7 @@ class TestSyncTenantsWithAuth(BaseSyncTest):
         tenant = get_tenant_model()(schema_name='test')
         tenant.save()
 
-        domain = get_tenant_domain_model()(tenant=tenant, domain='arbitrary.test.com')
+        domain = get_domain_model()(tenant=tenant, domain='arbitrary.test.com')
         domain.save()
 
         shared_tables = self.get_tables_list_in_schema(get_public_schema_name())
@@ -386,7 +386,7 @@ class TestSyncTenantsNoAuth(BaseSyncTest):
         """
         tenant = get_tenant_model()(schema_name='test')
         tenant.save()
-        domain = get_tenant_domain_model()(tenant=tenant, domain='something.test.com')
+        domain = get_domain_model()(tenant=tenant, domain='something.test.com')
         domain.save()
 
         shared_tables = self.get_tables_list_in_schema(get_public_schema_name())
@@ -410,13 +410,13 @@ class SharedAuthTest(BaseTestCase):
         self.sync_shared()
         self.public_tenant = get_tenant_model()(schema_name=get_public_schema_name())
         self.public_tenant.save()
-        self.public_domain = get_tenant_domain_model()(tenant=self.public_tenant, domain='test.com')
+        self.public_domain = get_domain_model()(tenant=self.public_tenant, domain='test.com')
         self.public_domain.save()
 
         # Create a tenant
         self.tenant = get_tenant_model()(schema_name='tenant')
         self.tenant.save()
-        self.domain = get_tenant_domain_model()(tenant=self.tenant, domain='tenant.test.com')
+        self.domain = get_domain_model()(tenant=self.tenant, domain='tenant.test.com')
         self.domain.save()
 
         # Create some users
@@ -517,7 +517,7 @@ class TenantManagerMethodsTestCaseTest(BaseTestCase):
         tenant.save()
         self.assertTrue(schema_exists(tenant.schema_name))
 
-        domain = get_tenant_domain_model()(tenant=tenant, domain='something.test.com')
+        domain = get_domain_model()(tenant=tenant, domain='something.test.com')
         domain.save()
 
         Client.objects.filter(pk=tenant.pk).delete()

@@ -3,7 +3,7 @@ from django.test.client import RequestFactory
 
 from django_common_user_tenants.middleware import TenantMainMiddleware
 from django_common_user_tenants.tests.testcases import BaseTestCase
-from django_common_user_tenants.utils import get_tenant_model, get_tenant_domain_model, get_public_schema_name
+from django_common_user_tenants.utils import get_tenant_model, get_domain_model, get_public_schema_name
 
 
 class RoutesTestCase(BaseTestCase):
@@ -20,7 +20,7 @@ class RoutesTestCase(BaseTestCase):
         cls.sync_shared()
         cls.public_tenant = get_tenant_model()(schema_name=get_public_schema_name())
         cls.public_tenant.save()
-        cls.public_domain = get_tenant_domain_model()(domain='test.com', tenant=cls.public_tenant)
+        cls.public_domain = get_domain_model()(domain='test.com', tenant=cls.public_tenant)
         cls.public_domain.save()
 
     @classmethod
@@ -42,7 +42,7 @@ class RoutesTestCase(BaseTestCase):
         self.tenant_domain = 'tenant.test.com'
         self.tenant = get_tenant_model()(schema_name='test')
         self.tenant.save()
-        self.domain = get_tenant_domain_model()(tenant=self.tenant, domain=self.tenant_domain)
+        self.domain = get_domain_model()(tenant=self.tenant, domain=self.tenant_domain)
         self.domain.save()
 
     def tearDown(self):

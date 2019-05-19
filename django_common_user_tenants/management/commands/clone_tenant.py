@@ -5,7 +5,7 @@ from django.utils.encoding import force_str
 from django.db.utils import IntegrityError
 from django.db import connection
 from django_common_user_tenants.clone import CloneSchema
-from django_common_user_tenants.utils import get_tenant_model, get_tenant_domain_model
+from django_common_user_tenants.utils import get_tenant_model, get_domain_model
 
 
 class Command(BaseCommand):
@@ -14,7 +14,7 @@ class Command(BaseCommand):
     # Only use editable fields
     tenant_fields = [field for field in get_tenant_model()._meta.fields
                      if field.editable and not field.primary_key]
-    domain_fields = [field for field in get_tenant_domain_model()._meta.fields
+    domain_fields = [field for field in get_domain_model()._meta.fields
                      if field.editable and not field.primary_key]
 
     def __init__(self, *args, **kwargs):
@@ -97,7 +97,7 @@ class Command(BaseCommand):
 
     def store_tenant_domain(self, **fields):
         try:
-            domain = get_tenant_domain_model().objects.create(**fields)
+            domain = get_domain_model().objects.create(**fields)
             domain.save()
             return domain
         except exceptions.ValidationError as e:

@@ -28,14 +28,14 @@ class TenantFileSystemStorageTestCase(BaseTestCase):
         tenant1 = utils.get_tenant_model()(schema_name='tenant1')
         tenant1.save()
 
-        domain1 = utils.get_tenant_domain_model()(tenant=tenant1, domain='something.test.com')
+        domain1 = utils.get_domain_model()(tenant=tenant1, domain='something.test.com')
         domain1.save()
 
         connection.set_schema_to_public()
         tenant2 = utils.get_tenant_model()(schema_name='tenant2')
         tenant2.save()
 
-        domain2 = utils.get_tenant_domain_model()(tenant=tenant2, domain='example.com')
+        domain2 = utils.get_domain_model()(tenant=tenant2, domain='example.com')
         domain2.save()
 
         # this file should be saved on the public schema

@@ -107,3 +107,7 @@ class UserTenantPermissions(PermissionsMixin, AbstractBaseUserFacade):
     is_staff = models.BooleanField(_('staff status'), default=False,
                                    help_text=_('Designates whether the user can log into this tenants '
                                                'admin site.'))
+
+    def __str__(self):
+        return self.profile.username
+

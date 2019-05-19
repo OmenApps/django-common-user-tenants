@@ -8,7 +8,7 @@ try:
 except ImportError:
     from distutils.core import setup
 
-__version__ = "0.0.1"
+__version__ = "0.0.4"
 
 setup(
     name='django-common-user-tenants',
@@ -41,7 +41,7 @@ setup(
     description='Tenant support for Django using PostgreSQL schemas, with common users and multiple tenant types.',
     long_description=io.open('README.rst', encoding='utf-8').read() if exists("README.rst") else "",
     classifiers=[
-        'Development Status :: 5 - Production/Stable',
+        'Development Status :: 2 - Pre-Alpha',
         'Environment :: Web Environment',
         'Operating System :: OS Independent',
         'License :: OSI Approved :: MIT License',

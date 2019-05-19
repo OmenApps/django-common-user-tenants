@@ -13,8 +13,10 @@ class BaseTestCase(TransactionTestCase):
     """
     @classmethod
     def setUpClass(cls):
-        settings.TENANT_MODEL = 'customers.Client'
-        settings.TENANT_DOMAIN_MODEL = 'customers.Domain'
+        settings.DCUT_TENANT_MODEL = 'customers.Client'
+        settings.DCUT_DOMAIN_MODEL = 'customers.Domain'
+        settings.DCUT_ORGANIZATION_MODEL = 'customers.Organization'
+        settings.DCUT_PERSON_MODEL = 'customers.Person'
         settings.SHARED_APPS = ('django_common_user_tenants',
                                 'customers')
         settings.TENANT_APPS = ('dts_test_app',

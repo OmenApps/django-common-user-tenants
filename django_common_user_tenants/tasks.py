@@ -2,10 +2,10 @@ import time
 from django.conf import settings
 from django.contrib.auth import get_user_model
 
-from django_common_user_tenants.test.cases import TenantTestCase
-from django_common_user_tenants.utils import (get_public_schema_name, get_tenant_model,
-                              get_tenant_domain_model, schema_context)
-from django_common_user_tenants.models import TenantMixin
+from .test.cases import TenantTestCase
+from .utils import (get_public_schema_name, get_tenant_model,
+                              get_domain_model, schema_context)
+from .models import TenantBase
 
 from .models import InactiveError, ExistsError
 
@@ -28,7 +28,7 @@ def provision_tenant(tenant_name, tenant_slug, tenant_type, user_email, is_staff
 
     tenant_domain = '{}.{}'.format(tenant_slug, settings.TENANT_USERS_DOMAIN)
 
-    if get_tenant_domain_model().objects.filter(domain=tenant_domain).first():
+    if get_domain_model().objects.filter(domain=tenant_domain).first():
         raise ExistsError("Tenant URL already exists.")
 
     time_string = str(int(time.time()))
@@ -58,7 +58,7 @@ def provision_tenant(tenant_name, tenant_slug, tenant_type, user_email, is_staff
                                                 owner=user)
 
             # Add one or more domains for the tenant
-            domain = get_tenant_domain_model().objects.create(domain=tenant_domain,
+            domain = get_domain_model().objects.create(domain=tenant_domain,
                                                               tenant=tenant,
                                                               is_primary=True)
             # Add user as a superuser inside the tenant

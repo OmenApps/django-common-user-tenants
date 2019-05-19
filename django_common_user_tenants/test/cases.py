@@ -2,7 +2,7 @@ from django.core.management import call_command
 from django.conf import settings
 from django.db import connection
 from django.test import TestCase
-from django_common_user_tenants.utils import get_tenant_model, get_tenant_domain_model, get_public_schema_name
+from django_common_user_tenants.utils import get_tenant_model, get_domain_model, get_public_schema_name
 
 ALLOWED_TEST_DOMAIN = '.test.com'
 
@@ -41,7 +41,7 @@ class TenantTestCase(TestCase):
 
         # Set up domain
         tenant_domain = cls.get_test_tenant_domain()
-        cls.domain = get_tenant_domain_model()(tenant=cls.tenant, domain=tenant_domain)
+        cls.domain = get_domain_model()(tenant=cls.tenant, domain=tenant_domain)
         cls.setup_domain(cls.domain)
         cls.domain.save()
 
@@ -117,7 +117,7 @@ class FastTenantTestCase(TenantTestCase):
 
         # Set up domain
         tenant_domain = cls.get_test_tenant_domain()
-        cls.domain = get_tenant_domain_model()(tenant=cls.tenant, domain=tenant_domain)
+        cls.domain = get_domain_model()(tenant=cls.tenant, domain=tenant_domain)
         cls.setup_domain(cls.domain)
         cls.domain.save()
         cls.use_new_tenant()

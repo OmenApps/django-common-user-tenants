@@ -14,7 +14,7 @@ their schema-aware implementations.
 
 class DjangoTenantsConfig(AppConfig):
     name = 'django_common_user_tenants'
-    verbose_name = "Django tenants"
+    verbose_name = "Django Common User Tenants"
 
     def ready(self):
         from django.db import connection
