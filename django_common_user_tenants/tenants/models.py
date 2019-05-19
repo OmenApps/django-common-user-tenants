@@ -4,7 +4,8 @@ from django.contrib.sites.shortcuts import get_current_site
 import time
 from django.db import models, connections, connection, transaction
 from django.urls import reverse
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permission, Group
+from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import Permission, Group
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.conf import settings
