@@ -560,10 +560,11 @@ class PersonProfileManager(models.Manager):
 
         if email is not None:
             new_user = UserModel.objects.create_user(email=email, password=password, is_staff=is_staff, **extra_fields)
+            return PersonModel.objects.create(user=new_user, first_name=first_name, last_name=last_name)
         else:
-            new_user = None
+            return PersonModel.objects.create(first_name=first_name, last_name=last_name)
         
-        return PersonModel.objects.create(user=new_user, first_name=first_name, last_name=last_name)
+        
 
 
 class PersonMixin(models.Model):
