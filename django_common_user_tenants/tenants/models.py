@@ -559,7 +559,7 @@ class PersonProfileManager(models.Manager):
         UserModel = get_user_model()
 
         if email is not None:
-            new_user = UserModel.create_user(email=email, password=password, is_staff=is_staff, **extra_fields)
+            new_user = UserModel.objects.create_user(email=email, password=password, is_staff=is_staff, **extra_fields)
         else:
             new_user = None
         
