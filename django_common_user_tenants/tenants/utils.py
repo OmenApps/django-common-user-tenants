@@ -5,7 +5,7 @@ from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.db import connections, DEFAULT_DB_ALIAS, connection
 from django.contrib.auth import get_user_model
-from .models import ExistsError
+# from .models import ExistsError
 
 try:
     from django.apps import apps
@@ -57,7 +57,8 @@ def create_public_tenant(domain_url, owner_email, **owner_extra):
     public_schema_name = get_public_schema_name()
 
     if TenantModel.objects.filter(schema_name=public_schema_name).first():
-        raise ExistsError("Public tenant already exists")
+        pass
+        # raise ExistsError("Public tenant already exists")
 
     # Create public tenant user. This user doesn't go through object manager
     # create_user function because public tenant does not exist yet
