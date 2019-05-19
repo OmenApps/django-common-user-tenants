@@ -3,8 +3,8 @@ import warnings
 from django.conf import settings
 from importlib import import_module
 
-from django_common_user_tenants.postgresql_backend.introspection import DatabaseSchemaIntrospection
-from django_common_user_tenants.tenants.utils import get_public_schema_name, get_limit_set_calls
+from .introspection import DatabaseSchemaIntrospection
+from ..tenants.utils import get_public_schema_name, get_limit_set_calls
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ImproperlyConfigured, ValidationError
 import django.db.utils
