@@ -1,15 +1,11 @@
-django-tenants
+django-common-user-tenants
 ==============
-.. image:: https://badges.gitter.im/Join%20Chat.svg
-   :alt: Join the chat at https://gitter.im/django-tenants
-   :target: https://gitter.im/django-tenants/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link
 
-.. image:: https://badge.fury.io/py/django-tenants.svg
-    :target: http://badge.fury.io/py/django-tenants
-.. image:: https://travis-ci.org/tomturner/django-tenants.svg?branch=master
-    :target: https://travis-ci.org/tomturner/django-tenants
-.. image:: https://readthedocs.org/projects/pip/badge/?version=latest
-    :target: https://django-tenants.readthedocs.io/en/latest/
+THIS APP IS NOT READY FOR PRODUCTION. IT IS A WORK IN PROGRESS COMBINING DJANGO-TENANTS AND DJANGO-TENANT-USERS WITH ADDITIONAL FEATURES AND UTILITIES.
+
+==============
+
+
 
 This application enables `django`_ powered websites to have multiple
 tenants via `PostgreSQL schemas`_. A vital feature for every

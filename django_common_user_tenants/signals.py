@@ -1,6 +1,6 @@
 from django.db.models.signals import post_delete
 from django.dispatch import Signal, receiver
-from django_common_user_tenants.utils import get_tenant_model, schema_exists
+from .utils import get_tenant_model, schema_exists
 
 post_schema_sync = Signal(providing_args=['tenant'])
 post_schema_sync.__doc__ = """

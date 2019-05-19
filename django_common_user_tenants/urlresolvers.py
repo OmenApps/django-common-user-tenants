@@ -1,6 +1,6 @@
 from django.urls import reverse as reverse_default
 from django.utils.functional import lazy
-from django_common_user_tenants.utils import clean_tenant_url
+from .utils import clean_tenant_url
 
 
 def reverse(viewname, urlconf=None, args=None, kwargs=None, current_app=None):
