@@ -51,8 +51,8 @@ def provision_tenant(tenant_name, tenant_slug, tenant_type, user_email, is_staff
         # if any error occurs
         with schema_context(get_public_schema_name()):
 
-            tenant = TenantModel.objects.create(name=tenant_name,
-                                                slug=tenant_slug,
+            tenant = TenantModel.objects.create(slug=tenant_slug,
+                                                # name=tenant_name,
                                                 schema_name=schema_name,
                                                 tenant_type=tenant_type,
                                                 owner=user)

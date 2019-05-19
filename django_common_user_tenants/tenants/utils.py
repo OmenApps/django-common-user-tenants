@@ -72,7 +72,7 @@ def create_public_tenant(domain_url, owner_email, **owner_extra):
 
 
     public_tenant = TenantModel.objects.create(schema_name=public_schema_name,
-                                               name='Public Tenant',
+                                               # name='Public Tenant',
                                                tenant_type='public',
                                                owner=profile)
 
