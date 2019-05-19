@@ -4,8 +4,7 @@ from django.contrib.sites.shortcuts import get_current_site
 import time
 from django.db import models, connections, connection, transaction
 from django.urls import reverse
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, \
-    Permission, Group
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permission, Group
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.conf import settings
@@ -16,8 +15,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from ..test.cases import TenantTestCase
 from ..postgresql_backend.base import _check_schema_name
-from ..permissions.models import UserTenantPermissions, \
-    PermissionsMixinFacade
+from ..permissions.models import UserTenantPermissions, PermissionsMixinFacade
 from .clone import CloneSchema
 from .signals import post_schema_sync, schema_needs_to_be_sync
 from .utils import get_tenant_model, get_creation_fakes_migrations, get_tenant_base_schema

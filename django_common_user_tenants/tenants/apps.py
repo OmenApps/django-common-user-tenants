@@ -28,8 +28,8 @@ class TenantsConfig(AppConfig):
     #         raise ImproperlyConfigured("TENANT_LISTING is empty. "
     #                                    "Maybe you don't need this app?")
 
-    #     if not hasattr(settings, 'TENANT_MODEL'):
-    #         raise ImproperlyConfigured('TENANT_MODEL setting not set')
+    #     if not hasattr(settings, 'DCUT_TENANT_MODEL'):
+    #         raise ImproperlyConfigured('DCUT_TENANT_MODEL setting not set')
 
     #     if 'django_common_user_tenants.routers.TenantSyncRouter' not in settings.DATABASE_ROUTERS:
     #         raise ImproperlyConfigured("DATABASE_ROUTERS setting must contain "
