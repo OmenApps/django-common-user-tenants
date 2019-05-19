@@ -19,7 +19,7 @@ from ..permissions.models import UserTenantPermissions, PermissionsMixinFacade
 from .clone import CloneSchema
 from .signals import post_schema_sync, schema_needs_to_be_sync
 from .utils import get_tenant_model, get_creation_fakes_migrations, get_tenant_base_schema
-from .utils import schema_exists, get_domain_model, get_public_schema_name, get_tenant_database_alias
+from .utils import schema_exists, get_domain_model, get_person_model, get_public_schema_name, get_tenant_database_alias
 
 
 # An existing user removed from a tenant
@@ -549,30 +549,21 @@ class UserProfile(AbstractBaseUser, PermissionsMixinFacade):
         return str(self)  # just use __unicode__ here.
 
 
-class DomainMixin(models.Model):
-    """
-    All models that store the domains must inherit this class
-    """
-    domain = models.CharField(max_length=253, unique=True, db_index=True)
-    tenant = models.ForeignKey(settings.DCUT_TENANT_MODEL, db_index=True, related_name='domains',
-                               on_delete=models.CASCADE)
+class PersonProfileManager(models.Manager):
+    def create_person(self, email=None, password=None, first_name=None, last_name='', is_staff=False, **extra_fields):
+        '''
+        Creates and returns a Person
+        Also creates and attaches a User if the email is provided
+        '''
+        PersonModel = get_person_model()
+        UserModel = get_user_model()
 
-    # Set this to true if this is the primary domain
-    is_primary = models.BooleanField(default=True, db_index=True)
-
-    @transaction.atomic
-    def save(self, *args, **kwargs):
-        # Get all other primary domains with the same tenant
-        domain_list = self.__class__.objects.filter(tenant=self.tenant, is_primary=True).exclude(pk=self.pk)
-        # If we have no primary domain yet, set as primary domain by default
-        self.is_primary = self.is_primary or (not domain_list.exists())
-        if self.is_primary:
-            # Remove primary status of existing domains for tenant
-            domain_list.update(is_primary=False)
-        super().save(*args, **kwargs)
-
-    class Meta:
-        abstract = True
+        if email is not None:
+            new_user = UserModel.create_user(email=email, password=password, is_staff=is_staff, **extra_fields)
+        else:
+            new_user = None
+        
+        return PersonModel.objects.create(user=new_user, first_name=first_name, last_name=last_name)
 
 
 class PersonMixin(models.Model):
@@ -580,15 +571,20 @@ class PersonMixin(models.Model):
     Makes it possible to have accounts managed by the district or WaterUser in cases where there is no associated user
     """
 
+    first_name = models.CharField(_('first name'), max_length=30)
+    last_name = models.CharField(_('last name'), max_length=150, blank=True)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, blank=True, on_delete=models.CASCADE, related_name="users_person")
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return self.name
+    objects = PersonProfileManager()
 
     class Meta:
         abstract = True
+
+
+class OrganizationManager(models.Manager):
+    pass
 
 
 class OrganizationMixin(models.Model):
@@ -613,6 +609,33 @@ class OrganizationMixin(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
+    objects = OrganizationManager()
+
     class Meta:
         abstract = True
 
+
+class DomainMixin(models.Model):
+    """
+    All models that store the domains must inherit this class
+    """
+    domain = models.CharField(max_length=253, unique=True, db_index=True)
+    tenant = models.ForeignKey(settings.DCUT_TENANT_MODEL, db_index=True, related_name='domains',
+                               on_delete=models.CASCADE)
+
+    # Set this to true if this is the primary domain
+    is_primary = models.BooleanField(default=True, db_index=True)
+
+    @transaction.atomic
+    def save(self, *args, **kwargs):
+        # Get all other primary domains with the same tenant
+        domain_list = self.__class__.objects.filter(tenant=self.tenant, is_primary=True).exclude(pk=self.pk)
+        # If we have no primary domain yet, set as primary domain by default
+        self.is_primary = self.is_primary or (not domain_list.exists())
+        if self.is_primary:
+            # Remove primary status of existing domains for tenant
+            domain_list.update(is_primary=False)
+        super().save(*args, **kwargs)
+
+    class Meta:
+        abstract = True
