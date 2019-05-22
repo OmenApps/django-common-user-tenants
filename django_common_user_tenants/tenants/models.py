@@ -71,6 +71,8 @@ class TenantBase(models.Model):
     # The owner of the tenant. Only they can delete it. This can be changed, but it
     # can't be blank. There should always be an owner.
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
@@ -524,6 +526,10 @@ class UserProfile(AbstractBaseUser, PermissionsMixinFacade):
 
     is_active = models.BooleanField(_('active'), default=True)
 
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+
     # Tracks whether the user's email has been verified
     is_verified = models.BooleanField(_('verified'), default=False)
 
@@ -575,6 +581,7 @@ class PersonMixin(models.Model):
     first_name = models.CharField(_('first name'), max_length=30)
     last_name = models.CharField(_('last name'), max_length=150, blank=True)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.CASCADE, related_name="users_person")
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
@@ -607,6 +614,7 @@ class OrganizationMixin(models.Model):
                                   related_name="tenants_organization"
                                   )
 
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
