@@ -108,6 +108,10 @@ class UserTenantPermissions(PermissionsMixin, AbstractBaseUserFacade):
                                    help_text=_('Designates whether the user can log into this tenants '
                                                'admin site.'))
 
+    class Meta:
+        verbose_name = "User Tenant Permission"
+        verbose_name_plural = "User Tenant Permissions"
+
     def __str__(self):
         return self.profile.username
 
