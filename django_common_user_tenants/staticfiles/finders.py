@@ -5,7 +5,7 @@ from collections import OrderedDict
 
 from django.db import connection
 
-from django_common_user_tenants import utils
+from django_common_user_tenants.tenants import utils
 from django_common_user_tenants.staticfiles.storage import TenantStaticFilesStorage
 
 
