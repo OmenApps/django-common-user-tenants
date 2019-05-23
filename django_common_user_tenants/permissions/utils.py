@@ -1,7 +1,9 @@
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.mixins import AccessMixin
 from django.contrib.auth.decorators import user_passes_test
+from django.core.exceptions import PermissionDenied
 from ..tenants.utils import get_current_tenant, tenant_context
+
 
 class TenantPermissionsRequiredMixin(AccessMixin):
     """
@@ -10,23 +12,21 @@ class TenantPermissionsRequiredMixin(AccessMixin):
     def dispatch(self, request, *args, **kwargs):
         with tenant_context(get_current_tenant()):
             if not request.user.has_tenant_permissions():
-                return self.handle_no_permission()
+                raise PermissionDenied
             return super().dispatch(request, *args, **kwargs)
 
 
 
-def tenant_permissions_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url=None):
+def tenant_permissions_required(function):
     """
     Decorator for views that checks that the user has permissions on the current tenant, redirecting
     to the log-in page if necessary.
     """
     with tenant_context(get_current_tenant()):
-        actual_decorator = user_passes_test(
-            lambda u: u.has_tenant_permissions(),
-            login_url=login_url,
-            redirect_field_name=redirect_field_name
-        )
-        if function:
-            return actual_decorator(function)
-        return actual_decorator
+        def _inner(request, *args, **kwargs):
+            if not request.user.has_tenant_permissions():
+                raise PermissionDenied           
+            return function(request, *args, **kwargs)
+        return _inner
+
 
