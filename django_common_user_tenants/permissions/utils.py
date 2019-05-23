@@ -1,6 +1,5 @@
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.mixins import AccessMixin
-from django.contrib.auth.decorators import user_passes_test
 from django.core.exceptions import PermissionDenied
 from ..tenants.utils import get_current_tenant, tenant_context
 
