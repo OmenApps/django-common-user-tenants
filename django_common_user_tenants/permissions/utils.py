@@ -15,7 +15,6 @@ class TenantPermissionsRequiredMixin(AccessMixin):
             return super().dispatch(request, *args, **kwargs)
 
 
-
 def tenant_permissions_required(function):
     """
     Decorator for views that checks that the user has permissions on the current tenant, redirecting

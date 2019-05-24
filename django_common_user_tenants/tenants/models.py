@@ -558,8 +558,10 @@ class UserProfile(AbstractBaseUser, PermissionsMixinFacade):
 class PersonProfileManager(models.Manager):
     def create_person(self, user_obj=None, email=None, password=None, first_name=None, last_name='', is_staff=False, **extra_fields):
         '''
-        Creates and returns a Person
-        Also creates and attaches a User if the email is provided
+        Creates Person
+        And creates and attaches a User if the new User info is provided
+            Or attaches a User if a user_obj is provided
+        Returns the new Person instance
         '''
         PersonModel = get_person_model()
         UserModel = get_user_model()
@@ -570,9 +572,11 @@ class PersonProfileManager(models.Manager):
             new_person.attach_user(user_obj)
             return new_person
         else:
-            user_obj = UserModel.objects.create_user(email=email, password=password, is_staff=is_staff, **extra_fields)
-            new_person.attach_user(user_obj)
-            return new_person
+            if email is not None and password is not None and fist_name is not None:
+                user_obj = UserModel.objects.create_user(email=email, password=password, is_staff=is_staff, **extra_fields)
+                new_person.attach_user(user_obj)
+                return new_person
+        return new_person
         
 
 class PersonMixin(models.Model):
