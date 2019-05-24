@@ -265,13 +265,26 @@ class TenantBase(models.Model):
 
     def reverse(self, request, view_name):
         """
-        Returns the URL of this tenant.
+        Returns the URL of this tenant, based on schema name (deprecated)
         """
         http_type = 'https://' if request.is_secure() else 'http://'
 
         domain = get_current_site(request).domain
 
         url = ''.join((http_type, self.schema_name, '.', domain, reverse(view_name)))
+
+        return url
+
+    def reverse2(self, request, view_name):
+        """
+        Returns the URL of this tenant, based on primary domain
+        """
+        http_type = 'https://' if request.is_secure() else 'http://'
+
+        DomainModel = get_domain_model()
+        domain_instance = DomainModel.objects.get(tenant=self, is_primary=True)
+
+        url = ''.join((http_type, domain_instance.domain, reverse(view_name)))
 
         return url
 
