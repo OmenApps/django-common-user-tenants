@@ -556,7 +556,7 @@ class UserProfile(AbstractBaseUser, PermissionsMixinFacade):
 
 
 class PersonProfileManager(models.Manager):
-    def create_person(self, email=None, password=None, first_name=None, last_name='', is_staff=False, **extra_fields):
+    def create_person(self, user_obj=None, email=None, password=None, first_name=None, last_name='', is_staff=False, **extra_fields):
         '''
         Creates and returns a Person
         Also creates and attaches a User if the email is provided
@@ -564,14 +564,16 @@ class PersonProfileManager(models.Manager):
         PersonModel = get_person_model()
         UserModel = get_user_model()
 
-        if email is not None:
-            new_user = UserModel.objects.create_user(email=email, password=password, is_staff=is_staff, **extra_fields)
-            return PersonModel.objects.create(user=new_user, first_name=first_name, last_name=last_name)
-        else:
-            return PersonModel.objects.create(first_name=first_name, last_name=last_name)
-        
-        
+        new_person = PersonModel.objects.create(first_name=first_name, last_name=last_name)
 
+        if user_obj is not None:
+            new_person.attach_user(user_obj)
+            return new_person
+        else:
+            user_obj = UserModel.objects.create_user(email=email, password=password, is_staff=is_staff, **extra_fields)
+            new_person.attach_user(user_obj)
+            return new_person
+        
 
 class PersonMixin(models.Model):
     """
@@ -586,6 +588,27 @@ class PersonMixin(models.Model):
     modified = models.DateTimeField(auto_now=True)
 
     objects = PersonProfileManager()
+
+    def has_user(self):
+        if self.user:
+            return True
+        else:
+            return False
+        return False
+
+
+    def attach_user(self, user_obj=None, email=None, password=None, first_name=None, last_name='', is_staff=False, **extra_fields):
+        UserModel = get_user_model()
+
+        if self.has_user:
+            self.user = user_obj
+            self.save()
+            return self.user
+        else:
+            new_user = UserModel.objects.create_user(email=None, password=None, first_name=None, last_name='', is_staff=False, **extra_fields)
+            new_user.person = self
+            new_user.save()
+            return new_user
 
     class Meta:
         abstract = True
