@@ -285,7 +285,7 @@ class TenantBase(models.Model):
         domain_instance = DomainModel.objects.get(tenant=self, is_primary=True)
 
         if settings.DEBUG:
-            url = ''.join((http_type, domain_instance.domain, ':', port, reverse(view_name)))
+            url = ''.join((http_type, domain_instance.domain, ':', str(port), reverse(view_name)))
         else:
             url = ''.join((http_type, domain_instance.domain, reverse(view_name)))
 
