@@ -275,7 +275,7 @@ class TenantBase(models.Model):
 
         return url
 
-    def reverse2(self, request, view_name):
+    def reverse2(self, request, view_name, port=8000):
         """
         Returns the URL of this tenant, based on primary domain
         """
@@ -284,7 +284,10 @@ class TenantBase(models.Model):
         DomainModel = get_domain_model()
         domain_instance = DomainModel.objects.get(tenant=self, is_primary=True)
 
-        url = ''.join((http_type, domain_instance.domain, reverse(view_name)))
+        if settings.DEBUG:
+            url = ''.join((http_type, domain_instance.domain, ':', port, reverse(view_name)))
+        else:
+            url = ''.join((http_type, domain_instance.domain, reverse(view_name)))
 
         return url
 
