@@ -4,7 +4,7 @@ from django.conf import settings
 from django.utils.functional import cached_property
 from django.core.files.storage import FileSystemStorage
 
-from django_common_user_tenants import utils
+from django_common_user_tenants.tenants import utils
 
 
 class TenantFileSystemStorage(FileSystemStorage):

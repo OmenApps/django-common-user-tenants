@@ -8,7 +8,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.db import connection
 from django.template.loaders.filesystem import Loader as BaseLoader
 
-from django_common_user_tenants import utils
+from django_common_user_tenants.tenants import utils
 
 
 class Loader(BaseLoader):
