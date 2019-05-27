@@ -26,7 +26,7 @@ def tenant_permissions_required(login_url=None, raise_exception=False):
         # First check if the user is authenticated
         if user.is_authenticated():
             with tenant_context(get_current_tenant()):
-                if request.user.has_tenant_permissions():
+                if user.has_tenant_permissions():
                     raise True
         # In case the 403 handler should be called raise the exception
         if raise_exception:
