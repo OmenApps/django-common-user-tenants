@@ -21,13 +21,12 @@ def tenant_permissions_required(function):
     Decorator for views that checks that the user has permissions on the current tenant, redirecting
     to the log-in page if necessary.
     """
-    if request.user.is_authenticated:
+    def _inner(request, *args, **kwargs):
         with tenant_context(get_current_tenant()):
-            def _inner(request, *args, **kwargs):
-                if not request.user.has_tenant_permissions():
-                    raise PermissionDenied           
-                return function(request, *args, **kwargs)
-            return _inner
-    return False
+            if not request.user.has_tenant_permissions():
+                raise PermissionDenied           
+            return function(request, *args, **kwargs)
+        return _inner
+
 
 
