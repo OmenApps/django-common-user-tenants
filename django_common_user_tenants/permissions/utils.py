@@ -24,8 +24,10 @@ def tenant_permissions_required(function=None, redirect_field_name=REDIRECT_FIEL
     """
 
     def has_tenant_perms(user):
-        with tenant_context(get_current_tenant()):
-            return user.has_tenant_permissions()
+        if user.is_authenticated:
+            with tenant_context(get_current_tenant()):
+                return user.has_tenant_permissions()
+        return False
 
     actual_decorator = user_passes_test(
         lambda u: has_tenant_perms(u),
