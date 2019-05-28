@@ -47,7 +47,7 @@ def get_limit_set_calls():
 def get_public_tenant():
     TenantModel = get_tenant_model()
     tenant = TenantModel.objects.get(schema_name=get_public_schema_name())
-    return Tenant
+    return tenant
 
 
 def get_current_tenant():
