@@ -17,21 +17,22 @@ class TenantPermissionsRequiredMixin(AccessMixin):
         return False
 
 
-def tenant_permissions_required(login_url=None, raise_exception=False):
+def tenant_permissions_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url=None):
     """
     Decorator for views that checks that the user has permissions on the current tenant, redirecting
     to the log-in page if necessary.
     """
-    def check_tenant_perms(user):
-        # First check if the user is authenticated
-        if user.is_authenticated():
-            with tenant_context(get_current_tenant()):
-                if user.has_tenant_permissions():
-                    raise True
-        # In case the 403 handler should be called raise the exception
-        if raise_exception:
-            raise PermissionDenied
-        # As the last resort, show the login form
-        return False
-    return user_passes_test(check_tenant_perms, login_url=login_url)
+
+    def has_tenant_perms(user):
+        with tenant_context(get_current_tenant()):
+            return user.has_tenant_permissions()
+
+    actual_decorator = user_passes_test(
+        lambda u: has_tenant_perms(u),
+        login_url=login_url,
+        redirect_field_name=redirect_field_name
+    )
+    if function:
+        return actual_decorator(function)
+    return actual_decorator
 
